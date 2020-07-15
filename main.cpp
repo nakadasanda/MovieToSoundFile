@@ -180,8 +180,8 @@ int main()
                     if(convert_spe){
                         Sample_size = av_rescale_rnd(pAudioFrame->nb_samples,
                                     sample_rate,pAudioFrame->sample_rate,AV_ROUND_UP);
-
                         if(Sample_size > MAX_Sample_size){
+                            //out_Audiobuffer初期化
                             av_freep(&out_Audiobuffer[0]);
                             ret = av_samples_alloc(out_Audiobuffer,&LineSize,out_audioChanels
                                                    ,Sample_size,AV_SAMPLE_FMT_S16,1);
@@ -191,6 +191,7 @@ int main()
                             }
                             MAX_Sample_size = Sample_size;
                         }
+                        //変換する
                         ret = swr_convert(audio_convert_ctx,out_Audiobuffer,Sample_size
                                           ,(const uint8_t **)pAudioFrame->data,pAudioFrame->nb_samples);
 
